@@ -8,11 +8,8 @@ public class ControllerEditor : Editor
 
     public void OnEnable()
     {
-
         distanceBetweenSpheres = serializedObject.FindProperty("distanceBetweenSpheres");
     }
-
-
 
     public override void OnInspectorGUI()
     {
@@ -20,22 +17,19 @@ public class ControllerEditor : Editor
 
         // Update the serializedProperty - always do this in the beginning of OnInspectorGUI.
         serializedObject.Update();
-
-        Debug.Log("distanceBetweenSpheres is null" + (distanceBetweenSpheres == null));
-        //EditorGUILayout.PropertyField(distanceBetweenSpheres);
-
-        var displacement = distanceBetweenSpheres.floatValue / 2;
-        var controller = GameObject.Find(target.name).GetComponent<Controller>();
-        DisplaceBy(controller.leftSphere.transform, x: -displacement);
-        DisplaceBy(controller.rightSphere.transform, x: displacement);
-
+        
+        //TODO verificar como desabilitar quando simular um jogo
+        //var displacement = distanceBetweenSpheres.floatValue / 2;
+        //var controller = GameObject.Find(target.name).GetComponent<Controller>();
+        //DisplaceInX(controller.leftSphere.transform, newX: -displacement);
+        //DisplaceInX(controller.rightSphere.transform, newX: displacement);
 
         // Apply changes to the serializedProperty - always do this in the end of OnInspectorGUI.
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DisplaceBy(Transform transform, float x)
+    private void DisplaceInX(Transform transform, float newX)
     {
-        transform.position = new Vector3(x, transform.position.y, transform.position.z);
+        transform.position = new Vector3(newX, transform.position.y, transform.position.z);
     }
 }
