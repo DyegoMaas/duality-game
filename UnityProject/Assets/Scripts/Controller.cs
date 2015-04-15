@@ -17,21 +17,35 @@ public class Controller : MonoBehaviour
 	void Update () {
 	    if (IsTouchingScreen())
 	    {
-	        var rotation = 0f;
+	        float rotation;
          
 	        var mousePosition = Input.mousePosition;
             if (mousePosition.x < middleOfScreen)
 	        {
-	            rotation += rotationVelocity * Time.deltaTime;
+	            rotation = rotationVelocity * Time.deltaTime;
 	        }
 	        else
 	        {
-                rotation -= rotationVelocity * Time.deltaTime;
+                rotation = -rotationVelocity * Time.deltaTime;
 	        }
 
-            if(rotation != 0f)
-                transform.Rotate(0,0,rotation);
+            //var x = transform.rotation.eulerAngles.x;
+            //var y = (transform.rotation.eulerAngles.y);
+            //var z = transform.rotation.eulerAngles.z + rotation;
+            //transform.rotation = Quaternion.Euler(x, y, z);
+
+            var x = transform.rotation.eulerAngles.x;
+            var y = (transform.rotation.eulerAngles.y);
+            var z = transform.rotation.eulerAngles.z + rotation;
+	        var targetRotation = Quaternion.Euler(x, y, z);
+	        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime*100);
+
+            // Smoothly rotates towards target 
+            //var targetPoint = targetPosition.transform.position;
+            //var targetRotation = Quaternion.LookRotation(targetPoint - transform.position, Vector3.up);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2.0);
 	    }
+        
 
         if (leftSphere && rightSphere)
             Debug.DrawLine(leftSphere.transform.position, rightSphere.transform.position, Color.green, 0.1f);
